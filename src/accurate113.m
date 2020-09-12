@@ -9,7 +9,7 @@ j=[t2,y2];
 j(1,:)=[];
 n=[k;j];
 result_table=table(n(:,1),n(:,2));
-writetable(result_table, 'prb_1.csv')
+writetable(result_table, '../data/ivp1_ground_truth.csv')
 
 %%%% problem 2 %%%
 tspan3 = [0:-0.001:-25];
@@ -22,4 +22,4 @@ jj=[t4,y4];
 jj(1,:)=[];
 nn=[kk;jj];
 result_table=table(nn(:,1),nn(:,2));
-writetable(result_table, 'prb_2.csv')
+writetable(result_table, '../data/ivp2_ground_truth.csv')
