@@ -1,12 +1,8 @@
 # %%
-import pandas as pd
 import numpy as np
-import os
 from typing import Tuple, List
-from SOPHOMORE.MATH286.lab.euler import euler_trapezium, euler_improved, euler_implicit, euler_explicit
-from SOPHOMORE.MATH286.lab.runge_kutta import runge_kutta_4th, runge_kutta_3rd
-
-base_dir = os.getcwd()
+from src.euler import euler_implicit, euler_explicit, euler_improved, euler_trapezium
+from src.runge_kutta import runge_kutta_4th, runge_kutta_3rd
 
 # %%
 def f1(t, y):

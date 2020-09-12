@@ -1,16 +1,8 @@
 # %%
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import os
-from typing import List, Tuple
-from SOPHOMORE.MATH286.lab.euler import euler_explicit, euler_implicit, euler_improved, euler_trapezium
-from SOPHOMORE.MATH286.lab.runge_kutta import runge_kutta_3rd, runge_kutta_4th
-from SOPHOMORE.MATH286.lab.adams import adams_monlton, adams_bashforth, simpson, hamming
 import time
 from memory_profiler import profile
-
-base_dir = os.getcwd()
 
 # %%
 def f1(t, y):

@@ -3,24 +3,28 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from typing import List, Tuple
 import scipy.signal as signal
-from SOPHOMORE.MATH286.lab.euler import euler_explicit, \
-                                        euler_implicit, \
-                                        euler_improved, \
-                                        euler_trapezium
-from SOPHOMORE.MATH286.lab.runge_kutta import runge_kutta_3rd, \
-                                              runge_kutta_4th
-from SOPHOMORE.MATH286.lab.adams import adams_monlton, \
-                                        adams_bashforth, \
-                                        simpson, \
-                                        hamming
-from SOPHOMORE.MATH286.lab.analysis import analyse_step_len, \
-                                           analyse_time, \
-                                           analyse_memory
+from src.euler import euler_explicit, \
+                      euler_implicit, \
+                      euler_improved, \
+                      euler_trapezium
+from src.runge_kutta import runge_kutta_3rd, \
+                            runge_kutta_4th
+from src.adams import adams_monlton, \
+                      adams_bashforth, \
+                      simpson, \
+                      hamming
+from src.analysis import analyse_step_len, \
+                         analyse_time, \
+                         analyse_memory
 
 # if run in ipython
-base_dir = os.getcwd() + '/SOPHOMORE/MATH286/lab'
+# base_dir = os.getcwd() + '/SOPHOMORE/MATH286/lab'
+
+# %%
+"""
+This file is used to run all the experiments, such as comparisons of errors and time complexities.
+"""
 
 # %%
 a1, b1 = -2.5, 1.0
@@ -41,10 +45,10 @@ if __name__ == "__main__":
 
 # %%
 """ 0. load the ground truth """
-# df1_truth = pd.read_csv(base_dir + '/data/ivp1_ground_truth.csv')
-# df2_truth = pd.read_csv(base_dir + '/data/ivp2_ground_truth.csv')
-df1_truth = pd.read_csv(base_dir + '/data/ivp1_ground_truth_h5.csv')
-df2_truth = pd.read_csv(base_dir + '/data/ivp2_ground_truth_h5.csv')
+# df1_truth = pd.read_csv('../data/ivp1_ground_truth.csv')
+# df2_truth = pd.read_csv('../data/ivp2_ground_truth.csv')
+df1_truth = pd.read_csv('../data/ivp1_ground_truth_h5.csv')
+df2_truth = pd.read_csv('../data/ivp2_ground_truth_h5.csv')
 # t1, y1 = df1_truth['Var1'].values, df1_truth['Var2'].values
 # t2, y2 = df2_truth['Var1'].values, df2_truth['Var2'].values
 
@@ -102,13 +106,11 @@ methods = [euler_explicit, euler_implicit, euler_trapezium, euler_improved,
            runge_kutta_3rd, runge_kutta_4th,
            adams_monlton, adams_bashforth]
 
-# %%
 df1 = df1_truth[(df1_truth['Var1'] >= a1) & (df1_truth['Var1'] <= b1)]
 df2 = df2_truth[(df2_truth['Var1'] >= a2) & (df2_truth['Var1'] <= b2)]
 t1, y1 = df1['Var1'].values, df1['Var2'].values
 t2, y2 = df2['Var1'].values, df2['Var2'].values
 
-# %%
 # ivp1
 for i, method in enumerate(methods):
     if h1 <= h_hat:
@@ -129,7 +131,6 @@ for i, method in enumerate(methods):
         e_list = np.power(abs(y_list - y1_tmp), 1 / 3)
         e_1_list.append(e_list)
 
-# %%
 # ivp2
 for i, method in enumerate(methods):
     if h2 <= h_hat:
@@ -151,6 +152,7 @@ for i, method in enumerate(methods):
         e_2_list.append(e_list)
 
 # %%
+# PLOTTING
 # IVP1 error
 plt.title("IVP1 Processed Error = (y_hat - y)^(1/3) with h = {}".format(h1))
 plt.plot(t_1_list[0], e_1_list[0], 'b', label='euler_explicit')
@@ -181,7 +183,7 @@ plt.legend()
 plt.show()
 
 # %%
-""" the average error """
+""" 2.2 the average error """
 # %%
 h_hat = 0.00001   # the step length of the ground truth
 h1 = 0.001
@@ -338,6 +340,7 @@ for method in methods:
     mh_e_2_list.append(h_e_2_list)
 
 # %%
+# PLOTTING
 # ivp1 error vs h
 plt.title("IVP1 Processed Error = (y_hat - y)^(1/5) of Explicit Euler Method")
 plt.plot(mh_t_1_list[0][0], mh_e_1_list[0][0], 'b', label='h = {}'.format(h1[0]))
@@ -441,7 +444,7 @@ for i, method in enumerate(methods):
         tm_list.append(tm)
     df_time_1[columns[i+1]] = tm_list
 
-df_time_1.to_csv(base_dir + '/data/time_analysis/ivp1_time_analysis.csv', index=False, float_format="%.8f")
+df_time_1.to_csv('../data/time_analysis/ivp1_time_analysis.csv', index=False, float_format="%.8f")
 
 df_time_2 = pd.DataFrame(columns=columns)
 df_time_2['h'] = h_list
@@ -452,11 +455,11 @@ for i, method in enumerate(methods):
         tm_list.append(tm)
     df_time_2[columns[i+1]] = tm_list
 
-df_time_2.to_csv(base_dir + '/data/time_analysis/ivp2_time_analysis.csv', index=False, float_format="%.8f")
+df_time_2.to_csv('../data/time_analysis/ivp2_time_analysis.csv', index=False, float_format="%.8f")
 
 
 # %%
-""" try try water """
+""" plotting the f function """
 fig = plt.figure()
 ax = plt.axes(projection='3d')
 plt.title("z = y^3 + t*y^2 + t^2*y + t^3")
